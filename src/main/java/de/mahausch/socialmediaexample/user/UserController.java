@@ -1,6 +1,7 @@
 package de.mahausch.socialmediaexample.user;
 
 
+import de.mahausch.socialmediaexample.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class UserResource {
+public class UserController {
 
     @Autowired
     private UserDaoService service;
