@@ -1,4 +1,4 @@
-package de.mahausch.socialmediaexample;
+package de.mahausch.socialmediaexample.helloworld;
 
 public class HelloWorldBean {
 

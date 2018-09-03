@@ -1,4 +1,4 @@
-package de.mahausch.socialmediaexample;
+package de.mahausch.socialmediaexample.helloworld;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
