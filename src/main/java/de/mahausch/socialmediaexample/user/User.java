@@ -2,6 +2,7 @@ package de.mahausch.socialmediaexample.user;
 
 import java.util.Date;
 
+
 public class User {
 
     private Integer id;
