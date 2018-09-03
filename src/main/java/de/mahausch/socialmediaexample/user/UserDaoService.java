@@ -1,9 +1,12 @@
 package de.mahausch.socialmediaexample.user;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class UserDaoService {
 
     private static List <User> users = new ArrayList<>();
