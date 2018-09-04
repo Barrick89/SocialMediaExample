@@ -3,6 +3,8 @@ package de.mahausch.socialmediaexample.user;
 
 import de.mahausch.socialmediaexample.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @RestController
 public class UserController {
 
@@ -27,13 +32,16 @@ public class UserController {
         return service.findAll();
     }
 
-    @GetMapping(path="/users/{id}")
-    public User retrieveUser(@PathVariable int id){
+    @GetMapping(path="/users/{id}") public Resource<User> retrieveUser(@PathVariable int id) {
         User user = service.findOne(id);
         if(user == null){
             throw new UserNotFoundException("id-" + id);
         }
-        return user;
+        //HATEOS
+        Resource<User> resource = new Resource<User>(user);
+        ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        resource.add(linkTo.withRel("all-users"));
+        return resource;
     }
 
     @PostMapping(path="/users") public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
