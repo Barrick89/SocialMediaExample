@@ -1,54 +1,28 @@
 package de.mahausch.socialmediaexample.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
-@Component
-public class UserDaoService {
+@Component class UserDaoService {
 
-    private static List <User> users = new ArrayList<>();
-    private static int userCount = 3;
+    @Autowired private UserRepository userRepository;
 
-    static {
-        users.add(new User(1, "Peter", new Date()));
-        users.add(new User(2, "Karl", new Date()));
-        users.add(new User(3, "Heinz", new Date()));
+    List<User> findAll() {
+        return userRepository.findAll();
     }
 
-    public List<User> findAll(){
-        return users;
+    User save(User user) {
+        return userRepository.save(user);
     }
 
-    public User save (User user){
-        if(user.getId() == null){
-            user.setId(++userCount);
-        }
-        users.add(user);
-        return user;
+    Optional<User> findOne(int id) {
+        return userRepository.findById(id);
     }
 
-    public User findOne(int id){
-        for(User user: users){
-            if(user.getId() == id){
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public User deleteById(int id) {
-        Iterator<User> iterator = users.iterator();
-        while (iterator.hasNext()) {
-            User user = iterator.next();
-            if (user.getId() == id) {
-                iterator.remove();
-                return user;
-            }
-        }
-        return null;
+    void deleteById(int id) {
+        userRepository.deleteById(id);
     }
 }
