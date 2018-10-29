@@ -1,13 +1,15 @@
 package de.mahausch.socialmediaexample.user;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,20 +17,18 @@ public class User {
 
     @Id @GeneratedValue private Integer id;
 
-    @Size(min = 2, message = "Name should have at least two characters")
-    private String user;
+    @Size(min = 2, message = "Name should have at least two characters") private String name;
 
-    @Past(message="Birthdate has to be in the past.")
-    private Date birthDate;
+    @Past(message="Birthdate has to be in the past.") @JsonFormat(pattern = "yyyy-MM-dd") private LocalDate birthDate;
 
     @OneToMany(mappedBy = "user") private List<Post> posts;
 
-    protected User() {
+    public User() {
     }
 
-    public User(Integer id, String user, Date birthDate) {
+    public User(Integer id, String name, LocalDate birthDate) {
         this.id = id;
-        this.user = user;
+        this.name = name;
         this.birthDate = birthDate;
     }
 
@@ -40,19 +40,19 @@ public class User {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -64,7 +64,11 @@ public class User {
         this.posts = posts;
     }
 
+    public boolean isPersisted() {
+        return id != null;
+    }
+
     @Override public String toString() {
-        return "User{" + "id=" + id + ", user='" + user + '\'' + ", birthDate=" + birthDate + '}';
+        return "User{" + "id=" + id + ", name='" + name + '\'' + ", birthDate=" + birthDate + '}';
     }
 }
